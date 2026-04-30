@@ -1,6 +1,6 @@
-const { describe, it, expect, beforeEach } = require('vitest');
-const { JSDOM } = require('jsdom');
-const fs = require('fs');
+import { describe, it, expect, beforeEach } from 'vitest';
+import { JSDOM } from 'jsdom';
+import fs from 'fs';
 
 const html = fs.readFileSync('index.html', 'utf8');
 
