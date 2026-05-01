@@ -1,23 +1,14 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { JSDOM } from 'jsdom';
+import { describe, it, expect, beforeEach } from 'vitest';
 import fs from 'fs';
-import path from 'path';
 
-const html = fs.readFileSync(path.resolve('index.html'), 'utf8');
-const scriptCode = fs.readFileSync(path.resolve('script.js'), 'utf8');
+const scriptCode = fs.readFileSync('script.js', 'utf8');
 
 describe('Formulario de registro', () => {
-  let dom, document, window;
-
   beforeEach(() => {
-    dom = new JSDOM(html, { runScripts: 'dangerously', resources: 'usable' });
-    document = dom.window.document;
-    window = dom.window;
-    // Inyectar script.js en el contexto del DOM
+    // Inyectar script.js en el DOM
     const scriptEl = document.createElement('script');
     scriptEl.textContent = scriptCode;
     document.body.appendChild(scriptEl);
-    // Ejecutar manualmente initForm si existe
     if (typeof window.initForm === 'function') {
       window.initForm();
     }
