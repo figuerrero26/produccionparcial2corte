@@ -2,13 +2,11 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 
-// 1. MOCK DE SCROLL (Debe estar arriba, antes de cargar el script)
-// JSDOM no tiene motor de renderizado, por lo que scrollIntoView no existe.
+// 1. MOCK DE SCROLL (Vital para que no explote)
 if (!window.HTMLElement.prototype.scrollIntoView) {
   window.HTMLElement.prototype.scrollIntoView = function() {};
 }
 
-// 2. CARGA DE ARCHIVOS
 const html = fs.readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf8');
 const scriptCode = fs.readFileSync(path.resolve(process.cwd(), 'script.js'), 'utf8');
 
@@ -17,10 +15,18 @@ describe('Navegación', () => {
     // Resetear el DOM
     document.documentElement.innerHTML = html;
 
-    // 3. INYECCIÓN DEL SCRIPT
+    // 2. INYECCIÓN DOBLE: Creamos el tag y también evaluamos el código
     const script = document.createElement('script');
     script.textContent = scriptCode;
     document.body.appendChild(script);
+
+    // Esto fuerza a Vitest a registrar las funciones en el objeto global del test
+    try {
+      const runScript = new Function('window', 'document', scriptCode);
+      runScript(window, document);
+    } catch (e) {
+      console.error("Error cargando script.js:", e);
+    }
   });
 
   it('debe mostrar la página de inicio por defecto', () => {
@@ -30,8 +36,9 @@ describe('Navegación', () => {
   });
 
   it('debe ejecutar scrollToSection sin romper el test', () => {
-    // Probamos la función que usa scrollIntoView
-    // Si el mock no funcionara, este test lanzaría un error "is not a function"
+    // Verificamos que la función exista antes de llamarla
+    expect(typeof window.scrollToSection).toBe('function');
+    
     expect(() => {
       window.scrollToSection('inicio');
     }).not.toThrow();
