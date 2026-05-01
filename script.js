@@ -20,6 +20,9 @@ function scrollToSection(sectionId) {
   }
 }
 
+// Mock de scrollIntoView porque JSDOM no lo soporta
+window.HTMLElement.prototype.scrollIntoView = function() {};
+
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(String(email).toLowerCase());
