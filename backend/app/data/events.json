@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Seminario de Inteligencia Artificial",
+    "date": "2026-05-10",
+    "location": "Auditorio Principal"
+  },
+  {
+    "id": 2,
+    "title": "Taller de Planeacion de Proyectos",
+    "date": "2026-05-18",
+    "location": "Aula 302"
+  },
+  {
+    "id": 3,
+    "title": "Club de Lectura - Sesion Abril",
+    "date": "2026-04-29",
+    "location": "Biblioteca Central"
+  },
+  {
+    "id": 4,
+    "title": "string",
+    "date": "2026-05-01",
+    "location": "string"
+  }
+]

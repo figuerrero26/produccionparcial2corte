@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Nueva plataforma virtual disponible",
+    "content": "La universidad lanzo oficialmente su nueva plataforma de cursos virtuales para todos los estudiantes."
+  },
+  {
+    "id": 2,
+    "title": "Inscripciones abiertas semestre 2026-2",
+    "content": "Ya estan abiertas las inscripciones para el segundo semestre de 2026. Consulta los plazos en la web."
+  },
+  {
+    "id": 3,
+    "title": "Convenio internacional firmado",
+    "content": "La Universidad Catolica firmo un nuevo convenio de intercambio con universidades europeas."
+  }
+]
