@@ -1,9 +1,10 @@
 describe('Formulario de registro', () => {
 import { describe, it, expect, beforeEach } from 'vitest';
 import fs from 'fs';
+import path from 'path';
 
-const html = fs.readFileSync('index.html', 'utf8');
-const scriptCode = fs.readFileSync('script.js', 'utf8');
+const html = fs.readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf8');
+const scriptCode = fs.readFileSync(path.resolve(process.cwd(), 'script.js'), 'utf8');
 
 describe('Formulario de registro', () => {
   beforeEach(() => {
