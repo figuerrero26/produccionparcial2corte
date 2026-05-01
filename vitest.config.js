@@ -2,8 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    environment: 'jsdom',
-    globals: true,
-    setupFiles: './tests/setup.js'
+    environment: 'jsdom', // Esto simula el navegador automáticamente
+    globals: true,       // Permite usar 'describe', 'it', 'expect' sin importarlos
   },
 });

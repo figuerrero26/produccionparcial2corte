@@ -1,11 +1,13 @@
+describe('Formulario de registro', () => {
 import { describe, it, expect, beforeEach } from 'vitest';
 import fs from 'fs';
 
+const html = fs.readFileSync('index.html', 'utf8');
 const scriptCode = fs.readFileSync('script.js', 'utf8');
 
 describe('Formulario de registro', () => {
   beforeEach(() => {
-    // Inyectar script.js en el DOM
+    document.body.innerHTML = html;
     const scriptEl = document.createElement('script');
     scriptEl.textContent = scriptCode;
     document.body.appendChild(scriptEl);
@@ -25,3 +27,4 @@ describe('Formulario de registro', () => {
     expect(prevented).toBe(true);
   });
 });
+})
