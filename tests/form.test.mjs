@@ -1,11 +1,10 @@
-
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { JSDOM } from 'jsdom';
 import fs from 'fs';
 import path from 'path';
 
-const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
-const scriptCode = fs.readFileSync(path.resolve(__dirname, '../script.js'), 'utf8');
+const html = fs.readFileSync(path.resolve('index.html'), 'utf8');
+const scriptCode = fs.readFileSync(path.resolve('script.js'), 'utf8');
 
 describe('Formulario de registro', () => {
   let dom, document, window;
