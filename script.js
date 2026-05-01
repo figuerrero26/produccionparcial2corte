@@ -1,4 +1,9 @@
-function showPage(pageId) {
+/**
+ * script.js - Lógica de la Plataforma de Cursos
+ */
+
+// 1. Navegación entre páginas (Inicio, Cursos, Contacto)
+window.showPage = function(pageId) {
   const pages = document.querySelectorAll('.page');
   pages.forEach(page => {
     page.classList.remove('active');
@@ -9,59 +14,78 @@ function showPage(pageId) {
   if (target) {
     target.classList.add('active');
     target.style.display = 'block';
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (typeof target.scrollIntoView === 'function') {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
-}
+};
 
-function scrollToSection(sectionId) {
+// 2. Desplazamiento suave a secciones (como el formulario de registro)
+window.scrollToSection = function(sectionId) {
   const section = document.getElementById(sectionId);
-  if (section) {
+  if (section && typeof section.scrollIntoView === 'function') {
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-}
+};
 
-// Mock de scrollIntoView porque JSDOM no lo soporta
-window.HTMLElement.prototype.scrollIntoView = function() {};
-
-function validateEmail(email) {
+// 3. Validación de formato de correo
+window.validateEmail = function(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(String(email).toLowerCase());
-}
+};
 
-function initForm() {
+// 4. Lógica del Formulario de Registro
+window.initForm = function() {
   const form = document.getElementById('registro-form');
+  if (!form) return;
+
+  // Obtenemos los elementos
   const nombre = document.getElementById('nombre');
   const correo = document.getElementById('correo');
   const errorNombre = document.getElementById('error-nombre');
   const errorCorreo = document.getElementById('error-correo');
   const successMsg = document.getElementById('success-msg');
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+  form.addEventListener('submit', function(e) {
     let valid = true;
 
-    errorNombre.textContent = '';
-    errorCorreo.textContent = '';
-    successMsg.textContent = '';
+    // Resetear mensajes de error
+    if (errorNombre) errorNombre.textContent = '';
+    if (errorCorreo) errorCorreo.textContent = '';
+    if (successMsg) successMsg.textContent = '';
 
+    // Validar nombre (mínimo 3 caracteres según el HTML)
     if (!nombre.value.trim() || nombre.value.trim().length < 3) {
-      errorNombre.textContent = 'Nombre completo debe tener al menos 3 caracteres.';
+      if (errorNombre) errorNombre.textContent = 'El nombre debe tener al menos 3 caracteres.';
       valid = false;
     }
 
-    if (!correo.value.trim() || !validateEmail(correo.value)) {
-      errorCorreo.textContent = 'Ingresa un correo válido.';
+    // Validar correo
+    if (!correo.value.trim() || !window.validateEmail(correo.value)) {
+      if (errorCorreo) errorCorreo.textContent = 'Ingresa un correo válido.';
       valid = false;
     }
 
-    if (valid) {
-      successMsg.textContent = 'Registro completado con éxito. ¡Bienvenido!';
+    // SI NO ES VÁLIDO: Detenemos el envío para que el test lo detecte
+    if (!valid) {
+      e.preventDefault();
+    } else {
+      // SI ES VÁLIDO: También prevenimos el envío real para mostrar el éxito (SPA style)
+      e.preventDefault();
+      if (successMsg) successMsg.textContent = 'Registro completado con éxito. ¡Bienvenido!';
       form.reset();
     }
   });
-}
+};
 
-document.addEventListener('DOMContentLoaded', function () {
-  showPage('inicio');
-  initForm();
-});
+// 5. Inicialización automática
+if (typeof document !== 'undefined') {
+  // Si el DOM ya está cargado (como en los tests), inicializamos de una vez
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.initForm();
+    });
+  } else {
+    window.initForm();
+  }
+}
